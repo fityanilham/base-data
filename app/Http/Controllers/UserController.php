@@ -188,8 +188,8 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $user->sendApiEmailVerificationNotification();
-        $success['token'] =  $user->createToken('nApp')->accessToken;
         $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
+        $success['token'] =  $user->createToken('nApp')->accessToken;
         $success['name'] =  $user->name;
 
         return response()->json([
