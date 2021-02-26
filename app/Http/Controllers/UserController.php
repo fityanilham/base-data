@@ -17,8 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-    //   $user = User::with('lesson')->get();
-    $user = User::get();
+      $user = User::with('lesson')->get();
+    // $user = User::get();
       return $user;
     }
 
