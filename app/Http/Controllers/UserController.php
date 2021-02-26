@@ -7,9 +7,13 @@ use App\Http\Controllers\Controllers;
 use App\Models\User;
 use illuminate\Support\Facades\Auth;
 use Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Auth\Events\Verified;
 
 class UserController extends Controller
 {
+    use verifiesEmails;
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +58,7 @@ class UserController extends Controller
       $user = Auth::user();
       return response->json([
         'success' =>$user
-      ], $this->successStatus);
+      ], 200);
     }
 
     /**
@@ -148,11 +152,16 @@ class UserController extends Controller
       if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
         $user = Auth::user();
         $success['token'] =  $user->createToken('nApp')->accessToken;
-        return response()->json([
-          'token' => $success,
-          'message' => 'Berhasil login',
-          'user' => $user
-        ], $this->successStatus);
+        if ($user->email_verified_at !== NULL) {
+          $success['message'] = 'Login successfull';
+          return response()->json([
+            'token' => $success,
+            'message' => 'Berhasil login',
+            'user' => $user
+          ], $this->successStatus);
+        } else {
+          return response()->json(['error'=>'Tolong konfirmasi email kamu di mail box!'], 401);
+        }
       } else {
         return response()->json([
             'message' => 'Email dan Password salah'
@@ -178,7 +187,9 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $user->sendApiEmailVerificationNotification();
         $success['token'] =  $user->createToken('nApp')->accessToken;
+        $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
         $success['name'] =  $user->name;
 
         return response()->json([

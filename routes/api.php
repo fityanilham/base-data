@@ -24,15 +24,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('email/verify/{id}', 'App\Http\Controllers\VerificationApiController@verify')->name('verificationapi.verify');
+Route::post('email/resend', 'App\Http\Controllers\VerificationApiController@resend')->name('verificationapi.resend');
 Route::post('/login', $url . '\UserController@login')->name('login');
 Route::post('/register', $url . '\UserController@register');
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', 'App\Http\Controllers\UserController@logout');
     Route::resource('/user', 'App\Http\Controllers\UserController');
-    // Route::resource('/quotes', 'App\Http\Controllers\QuotesController');
+    Route::resource('/quotes', 'App\Http\Controllers\QuotesController');
     Route::resource('/pelajaran', 'App\Http\Controllers\LessonController');
-    // Route::resource('/bab', 'App\Http\Controllers\ChapterController');
+    Route::resource('/bab', 'App\Http\Controllers\ChapterController');
 });
 
 Route::post('/forgot-password', function(Request $request) {
