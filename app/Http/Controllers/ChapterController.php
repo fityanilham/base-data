@@ -1,0 +1,186 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Chapter;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class ChapterController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+      $chapter = Chapter::get();
+      return $chapter;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+      // 
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+      $chapter = Validator::make(
+        $request->all(), [
+          'user_id' => 'required',
+          'lesson_id' => 'required',
+          'judul_bab' => 'required',
+          'materi' => 'required',
+        ],
+        [
+          'user_id.required' => 'Masukkan user id!',
+          'lesson_id.required' => 'Masukkan lesson id!',
+          'judul_bab.required' => 'Masukkan nama judul bab!',
+          'materi.required' => 'Masukkan materi!',
+        ]
+      );
+
+      if($chapter->fails()) {
+        return response()->json([
+          'success' => false,
+          'message' => 'Silahkan isi bagian yang kosong',
+          'data'    => $chapter->errors()
+        ],401);
+      }else {
+        $post = Chapter::create([
+          'user_id' => $request->input('user_id'),
+          'lesson_id' => $request->input('lesson_id'),
+          'judul_bab' => $request->input('judul_bab'),
+          'materi' => $request->input('materi'),
+        ]);
+        if ($post) {
+          return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan!',
+          ], 200);
+        } else {
+          return response()->json([
+            'success' => false,
+            'message' => 'Data gagal disimpan!',
+          ], 401);
+        }
+      }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Chapter  $chapter
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Chapter $chapter, $id)
+    {
+      $chapter = Chapter::where('id', $id)->first();
+      if ($chapter) {
+        return $chapter;
+      } else {
+        return response()->json([
+          'success' => false,
+          'message' => 'Tidak ada detail data!',
+          'data' => 'Kosong!'
+        ], 401);
+      }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Chapter  $chapter
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Chapter $chapter)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Chapter  $chapter
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Chapter $chapter)
+    {
+      $chapter = Validator::make(
+        $request->all(), [
+          'user_id' => 'required',
+          'lesson_id' => 'required',
+          'judul_bab' => 'required',
+          'materi' => 'required',
+        ],
+        [
+          'user_id.required' => 'Masukkan user id!',
+          'lesson_id.required' => 'Masukkan lesson id!',
+          'judul_bab.required' => 'Masukkan nama judul bab!',
+          'materi.required' => 'Masukkan materi!',
+        ]
+      );
+
+      if($chapter->fails()) {
+        return response()->json([
+          'success' => false,
+          'message' => 'Silahkan isi bagian yang kosong',
+          'data' => $chapter->errors()
+        ],401);
+      } else {
+        $post = Chapter::where('id', $request->id)->update([
+          'user_id' => $request->input('user_id'),
+          'lesson_id' => $request->input('lesson_id'),
+          'judul_bab' => $request->input('judul_bab'),
+          'materi' => $request->input('materi'),
+        ]);
+        if ($post) {
+          return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diupdate!',
+          ], 200);
+        } else {
+          return response()->json([
+            'success' => false,
+            'message' => 'Data gagal diupdate!',
+          ], 401);
+        }
+      }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Chapter  $chapter
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Chapter $chapter, $id)
+    {
+      $chapter = Chapter::findOrFail($id);
+      if($chapter) {
+        $chapter->delete();
+        return response()->json([
+          'success' => true,
+          'message' => 'Data berhasil dihapus!',
+        ], 200);
+      } else {
+        return response()->json([
+          'success' => false,
+          'message' => 'Data gagal dihapus!',
+        ], 401);
+      }
+    }
+}
