@@ -48,7 +48,7 @@ Route::post('/forgot-password', function(Request $request) {
 })->name('password.email');
 Route::get('/reset-password/{token}', function ($token) {
     $email = $_GET['email'];
-    return view('auth.reset-password', ['token' => $token, 'email' => $email]);
+    return view('Auth.reset-password', ['token' => $token, 'email' => $email]);
 })->name('password.reset');
 Route::post('/reset-password', function(Request $request) {
     $request->validate([
