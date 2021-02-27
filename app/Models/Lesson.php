@@ -24,4 +24,9 @@ class Lesson extends Model
       public function chapter() {
         return $this->hasMany(Chapter::class);
       }
+
+      public function quiz()
+      {
+        return $this->hasMany(Quiz::class);
+      }
 }

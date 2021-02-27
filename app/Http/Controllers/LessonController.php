@@ -15,7 +15,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-      $lesson = Lesson::with('Chapter')->get();
+      $lesson = Lesson::with('Chapter', 'Quiz')->get();
       return $lesson;
     }
 

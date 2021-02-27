@@ -39,12 +39,16 @@ class QuizController extends Controller
     {
       $quiz = Validator::make(
         $request->all(), [
+          'user_id' => 'required',
+          'lesson_id' => 'required',
           'soal' => 'required',
           'jawaban' => 'required',
           'jawaban_salah1' => 'required',
           'jawaban_salah2' => 'required',
         ],
         [
+          'user_id.required' => 'Masukkan user id!',
+          'lesson_id.required' => 'Masukkan lesson id!',
           'soal.required' => 'Masukkan Soal!',
           'jawaban.required' => 'Masukkan jawaban!',
           'jawaban_salah1.required' => 'Masukkan jawaban salah 1!',
@@ -60,6 +64,8 @@ class QuizController extends Controller
         ],401);
       }else {
         $post = Quiz::create([
+          'user_id' => $request->input('user_id'),
+          'lesson_id' => $request->input('lesson_id'),
           'soal' => $request->input('soal'),
           'jawaban' => $request->input('jawaban'),
           'jawaban_salah1' => $request->input('jawaban_salah1'),
@@ -121,12 +127,16 @@ class QuizController extends Controller
     {
       $quiz = Validator::make(
         $request->all(), [
+          'user_id' => 'required',
+          'lesson_id' => 'required',
           'soal' => 'required',
           'jawaban' => 'required',
           'jawaban_salah1' => 'required',
           'jawaban_salah2' => 'required',
         ],
         [
+          'user_id.required' => 'Masukkan user_id!',
+          'lesson_id.required' => 'Masukkan lesson_id!',
           'soal.required' => 'Masukkan Soal!',
           'jawaban.required' => 'Masukkan jawaban!',
           'jawaban_salah1.required' => 'Masukkan jawaban salah 1!',
@@ -142,6 +152,8 @@ class QuizController extends Controller
         ],401);
       }else {
         $post = Quiz::where('id', $request->$id)->update([
+          'user_id' => $request->input('user_id'),
+          'lesson_id' => $request->input('lesson_id'),
           'soal' => $request->input('soal'),
           'jawaban' => $request->input('jawaban'),
           'jawaban_salah1' => $request->input('jawaban_salah1'),
