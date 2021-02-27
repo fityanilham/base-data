@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lesson;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class LessonController extends Controller
+class QuizController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class LessonController extends Controller
      */
     public function index()
     {
-      $lesson = Lesson::with('Chapter')->get();
-      return $lesson;
+      $quiz = Quiz::get();
+      return $quiz;
     }
 
     /**
@@ -24,9 +24,9 @@ class LessonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-      // 
+        //
     }
 
     /**
@@ -37,36 +37,33 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-      $Lesson = Validator::make(
+      $quiz = Validator::make(
         $request->all(), [
-          'user_id' => 'required',
-          'pelajaran' => 'required',
-          'guru' => 'required',
-          'tingkatan' => 'required',
-          'deskripsi' => 'required',
+          'soal' => 'required',
+          'jawaban' => 'required',
+          'jawaban_salah1' => 'required',
+          'jawaban_salah2' => 'required',
         ],
         [
-          'user_id.required' => 'Masukkan user id!',
-          'pelajaran.required' => 'Masukkan nama pelajaran Post!',
-          'guru.required' => 'Masukkan nama guru!',
-          'tingkatan.required' => 'Masukkan tingkat kesulitan!',
-          'deskripsi.required' => 'Masukkan deskripsi pelajaran!',
+          'soal.required' => 'Masukkan Soal!',
+          'jawaban.required' => 'Masukkan jawaban!',
+          'jawaban_salah1.required' => 'Masukkan jawaban salah 1!',
+          'jawaban_salah2.required' => 'Masukkan jawaban salah 2!',
         ]
       );
 
-      if($Lesson->fails()) {
+      if($quiz->fails()) {
         return response()->json([
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
-          'data'    => $Lesson->errors()
+          'data'    => $quiz->errors()
         ],401);
       }else {
-        $post = Lesson::create([
-          'user_id' => $request->input('user_id'),
-          'pelajaran' => $request->input('pelajaran'),
-          'guru' => $request->input('guru'),
-          'tingkatan' => $request->input('tingkatan'),
-          'deskripsi' => $request->input('deskripsi'),
+        $post = Quiz::create([
+          'soal' => $request->input('soal'),
+          'jawaban' => $request->input('jawaban'),
+          'jawaban_salah1' => $request->input('jawaban_salah1'),
+          'jawaban_salah2' => $request->input('jawaban_salah2'),
         ]);
         if ($post) {
           return response()->json([
@@ -85,14 +82,14 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson, $id)
+    public function show(Quiz $quiz, $id)
     {
-      $lesson = Lesson::with('Chapter')->where('id', $id)->first();
-      if ($lesson) {
-        return $lesson;
+      $quiz = Lesson::where('id', $id)->first();
+      if ($quiz) {
+        return $quiz;
       } else {
         return response()->json([
           'success' => false,
@@ -105,10 +102,10 @@ class LessonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lesson $lesson)
+    public function edit(Quiz $quiz)
     {
         //
     }
@@ -117,51 +114,48 @@ class LessonController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Quiz $quiz)
     {
-      $lesson = Validator::make(
+      $quiz = Validator::make(
         $request->all(), [
-          'user_id'  => 'required',
-          'pelajaran' => 'required',
-          'guru' => 'required',
-          'tingkatan' => 'required',
-          'deskripsi' => 'required',
+          'soal' => 'required',
+          'jawaban' => 'required',
+          'jawaban_salah1' => 'required',
+          'jawaban_salah2' => 'required',
         ],
         [
-          'user_id.required' => 'Masukkan user id!',
-          'pelajaran.required' => 'Masukkan nama pelajaran!',
-          'guru.required' => 'Masukkan nama guru!',
-          'tingkatan.required' => 'Masukkan tingkat kesulitan!',
-          'deskripsi.required' => 'Masukkan deskripsi pelajaran!',
+          'soal.required' => 'Masukkan Soal!',
+          'jawaban.required' => 'Masukkan jawaban!',
+          'jawaban_salah1.required' => 'Masukkan jawaban salah 1!',
+          'jawaban_salah2.required' => 'Masukkan jawaban salah 2!',
         ]
       );
 
-      if($lesson->fails()) {
+      if($quiz->fails()) {
         return response()->json([
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
-          'data' => $lesson->errors()
+          'data'    => $quiz->errors()
         ],401);
-      } else {
-        $post = Lesson::where('id', $request->id)->update([
-          'user_id' => $request->input('user_id'),
-          'pelajaran' => $request->input('pelajaran'),
-          'guru' => $request->input('guru'),
-          'tingkatan' => $request->input('tingkatan'),
-          'deskripsi' => $request->input('deskripsi'),
+      }else {
+        $post = Quiz::where('id', $request->$id)->update([
+          'soal' => $request->input('soal'),
+          'jawaban' => $request->input('jawaban'),
+          'jawaban_salah1' => $request->input('jawaban_salah1'),
+          'jawaban_salah2' => $request->input('jawaban_salah2'),
         ]);
         if ($post) {
           return response()->json([
             'success' => true,
-            'message' => 'Data berhasil diupdate!',
+            'message' => 'Data berhasil disimpan!',
           ], 200);
         } else {
           return response()->json([
             'success' => false,
-            'message' => 'Data gagal diupdate!',
+            'message' => 'Data gagal disimpan!',
           ], 401);
         }
       }
@@ -170,14 +164,14 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson, $id)
+    public function destroy(Quiz $quiz)
     {
-      $lesson = Lesson::findOrFail($id);
-      if($lesson) {
-        $lesson->delete();
+      $quiz = Quiz::findOrFail($id);
+      if($quiz) {
+        $quiz->delete();
         return response()->json([
           'success' => true,
           'message' => 'Data berhasil dihapus!',
