@@ -14,8 +14,8 @@ class Quiz extends Model
         'lesson_id',
         'soal',
         'jawaban',
-        'jawaban_salah1',
-        'jawaban_salah2',
+        'jawaban',
+        'jawaban',
     ];
 
     public function lesson()

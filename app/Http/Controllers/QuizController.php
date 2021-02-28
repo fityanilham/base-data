@@ -43,16 +43,16 @@ class QuizController extends Controller
           'lesson_id' => 'required',
           'soal' => 'required',
           'jawaban' => 'required',
-          'jawaban_salah1' => 'required',
-          'jawaban_salah2' => 'required',
+          'jawaban' => 'required',
+          'jawaban' => 'required',
         ],
         [
           'user_id.required' => 'Masukkan user id!',
           'lesson_id.required' => 'Masukkan lesson id!',
           'soal.required' => 'Masukkan Soal!',
           'jawaban.required' => 'Masukkan jawaban!',
-          'jawaban_salah1.required' => 'Masukkan jawaban salah 1!',
-          'jawaban_salah2.required' => 'Masukkan jawaban salah 2!',
+          'jawaban.required' => 'Masukkan jawaban salah 1!',
+          'jawaban.required' => 'Masukkan jawaban salah 2!',
         ]
       );
 
@@ -68,8 +68,8 @@ class QuizController extends Controller
           'lesson_id' => $request->input('lesson_id'),
           'soal' => $request->input('soal'),
           'jawaban' => $request->input('jawaban'),
-          'jawaban_salah1' => $request->input('jawaban_salah1'),
-          'jawaban_salah2' => $request->input('jawaban_salah2'),
+          'jawaban' => $request->input('jawaban'),
+          'jawaban' => $request->input('jawaban'),
         ]);
         if ($post) {
           return response()->json([
@@ -131,16 +131,16 @@ class QuizController extends Controller
           'lesson_id' => 'required',
           'soal' => 'required',
           'jawaban' => 'required',
-          'jawaban_salah1' => 'required',
-          'jawaban_salah2' => 'required',
+          'jawaban' => 'required',
+          'jawaban' => 'required',
         ],
         [
           'user_id.required' => 'Masukkan user_id!',
           'lesson_id.required' => 'Masukkan lesson_id!',
           'soal.required' => 'Masukkan Soal!',
           'jawaban.required' => 'Masukkan jawaban!',
-          'jawaban_salah1.required' => 'Masukkan jawaban salah 1!',
-          'jawaban_salah2.required' => 'Masukkan jawaban salah 2!',
+          'jawaban.required' => 'Masukkan jawaban salah 1!',
+          'jawaban.required' => 'Masukkan jawaban salah 2!',
         ]
       );
 
@@ -156,8 +156,8 @@ class QuizController extends Controller
           'lesson_id' => $request->input('lesson_id'),
           'soal' => $request->input('soal'),
           'jawaban' => $request->input('jawaban'),
-          'jawaban_salah1' => $request->input('jawaban_salah1'),
-          'jawaban_salah2' => $request->input('jawaban_salah2'),
+          'jawaban' => $request->input('jawaban'),
+          'jawaban' => $request->input('jawaban'),
         ]);
         if ($post) {
           return response()->json([

@@ -19,8 +19,8 @@ class CreateQuizzesTable extends Migration
             $table->integer('lesson_id')->unsigned();
             $table->string('soal');
             $table->string('jawaban');
-            $table->string('jawaban_salah1');
-            $table->string('jawaban_salah2');
+            $table->string('jawaban');
+            $table->string('jawaban');
             $table->timestamps();
         });
     }

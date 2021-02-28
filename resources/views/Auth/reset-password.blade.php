@@ -60,7 +60,7 @@
       position: absolute;
       top: 18%;
       left: 35%;
-      background-image: url("/hiasan.png");
+      /* background-image: url("/hiasan.png"); */
       width: 80%;
       background-repeat: no-repeat;
       transform: scale(.3);
@@ -220,7 +220,8 @@
 <body>
   <div class="container">
     <div class="image-wrapper">
-      <!-- <img src={{asset("forget.png")}}> -->
+    <img src="https://i.ibb.co/0r7VVcf/forgotpassword.png" alt="verified-Email">
+
     </div>
     <div class="card">
       <div class="alert" id="alert">

@@ -90,7 +90,7 @@ class LessonController extends Controller
      */
     public function show(Lesson $lesson, $id)
     {
-      $lesson = Lesson::with('Chapter')->where('id', $id)->first();
+      $lesson = Lesson::with('Chapter', 'Quiz')->where('id', $id)->first();
       if ($lesson) {
         return $lesson;
       } else {
