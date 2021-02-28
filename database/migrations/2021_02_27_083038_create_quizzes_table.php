@@ -19,8 +19,8 @@ class CreateQuizzesTable extends Migration
             $table->integer('lesson_id')->unsigned();
             $table->string('soal');
             $table->string('jawaban');
-            $table->string('jawaban');
-            $table->string('jawaban');
+            $table->string('salah1');
+            $table->string('salah2');
             $table->timestamps();
         });
     }
@@ -28,7 +28,7 @@ class CreateQuizzesTable extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @return voidx
      */
     public function down()
     {

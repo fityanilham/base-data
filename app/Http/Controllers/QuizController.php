@@ -51,8 +51,8 @@ class QuizController extends Controller
           'lesson_id.required' => 'Masukkan lesson id!',
           'soal.required' => 'Masukkan Soal!',
           'jawaban.required' => 'Masukkan jawaban!',
-          'jawaban.required' => 'Masukkan jawaban salah 1!',
-          'jawaban.required' => 'Masukkan jawaban salah 2!',
+          'salah1.required' => 'Masukkan salah salah 1!',
+          'salah2.required' => 'Masukkan salah salah 2!',
         ]
       );
 
@@ -68,8 +68,8 @@ class QuizController extends Controller
           'lesson_id' => $request->input('lesson_id'),
           'soal' => $request->input('soal'),
           'jawaban' => $request->input('jawaban'),
-          'jawaban' => $request->input('jawaban'),
-          'jawaban' => $request->input('jawaban'),
+          'salah1' => $request->input('salah1'),
+          'salah2' => $request->input('salah2'),
         ]);
         if ($post) {
           return response()->json([
@@ -131,16 +131,16 @@ class QuizController extends Controller
           'lesson_id' => 'required',
           'soal' => 'required',
           'jawaban' => 'required',
-          'jawaban' => 'required',
-          'jawaban' => 'required',
+          'salah1' => 'required',
+          'salah2' => 'required',
         ],
         [
-          'user_id.required' => 'Masukkan user_id!',
-          'lesson_id.required' => 'Masukkan lesson_id!',
+          'user_id.required' => 'Masukkan user id!',
+          'lesson_id.required' => 'Masukkan lesson id!',
           'soal.required' => 'Masukkan Soal!',
           'jawaban.required' => 'Masukkan jawaban!',
-          'jawaban.required' => 'Masukkan jawaban salah 1!',
-          'jawaban.required' => 'Masukkan jawaban salah 2!',
+          'salah1.required' => 'Masukkan salah salah 1!',
+          'salah2.required' => 'Masukkan salah salah 2!',
         ]
       );
 
@@ -156,8 +156,8 @@ class QuizController extends Controller
           'lesson_id' => $request->input('lesson_id'),
           'soal' => $request->input('soal'),
           'jawaban' => $request->input('jawaban'),
-          'jawaban' => $request->input('jawaban'),
-          'jawaban' => $request->input('jawaban'),
+          'salah1' => $request->input('salah1'),
+          'salah2' => $request->input('salah2'),
         ]);
         if ($post) {
           return response()->json([
