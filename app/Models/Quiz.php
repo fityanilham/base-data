@@ -12,14 +12,16 @@ class Quiz extends Model
     protected $fillable = [
         'user_id',
         'lesson_id',
-        'soal',
-        'jawaban',
-        'salah1',
-        'salah2',
+        'question_text',
     ];
 
     public function lesson()
     {
         return $this->belongTo(Lesson::class);
+    }
+
+    public function answerOption()
+    {
+        return $this->hasMany(AnswerOption::class);
     }
 }

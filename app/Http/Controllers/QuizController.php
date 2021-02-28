@@ -15,7 +15,7 @@ class QuizController extends Controller
      */
     public function index()
     {
-      $quiz = Quiz::get();
+      $quiz = Quiz::with('AnswerOption')->get();
       return $quiz;
     }
 
@@ -41,18 +41,12 @@ class QuizController extends Controller
         $request->all(), [
           'user_id' => 'required',
           'lesson_id' => 'required',
-          'soal' => 'required',
-          'jawaban' => 'required',
-          'jawaban' => 'required',
-          'jawaban' => 'required',
+          'question_text' => 'required',
         ],
         [
           'user_id.required' => 'Masukkan user id!',
           'lesson_id.required' => 'Masukkan lesson id!',
-          'soal.required' => 'Masukkan Soal!',
-          'jawaban.required' => 'Masukkan jawaban!',
-          'salah1.required' => 'Masukkan salah salah 1!',
-          'salah2.required' => 'Masukkan salah salah 2!',
+          'question_text.required' => 'Masukkan Soal!',
         ]
       );
 
@@ -66,10 +60,7 @@ class QuizController extends Controller
         $post = Quiz::create([
           'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
-          'soal' => $request->input('soal'),
-          'jawaban' => $request->input('jawaban'),
-          'salah1' => $request->input('salah1'),
-          'salah2' => $request->input('salah2'),
+          'question_text' => $request->input('question_text'),
         ]);
         if ($post) {
           return response()->json([
@@ -93,7 +84,7 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz, $id)
     {
-      $quiz = Lesson::where('id', $id)->first();
+      $quiz = Lesson::with('AnswerOption')->where('id', $id)->first();
       if ($quiz) {
         return $quiz;
       } else {
@@ -123,24 +114,18 @@ class QuizController extends Controller
      * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Quiz $quiz)
+    public function update(Request $request, Quiz $quiz, $id)
     {
       $quiz = Validator::make(
         $request->all(), [
           'user_id' => 'required',
           'lesson_id' => 'required',
-          'soal' => 'required',
-          'jawaban' => 'required',
-          'salah1' => 'required',
-          'salah2' => 'required',
+          'question_text' => 'required',
         ],
         [
-          'user_id.required' => 'Masukkan user id!',
-          'lesson_id.required' => 'Masukkan lesson id!',
-          'soal.required' => 'Masukkan Soal!',
-          'jawaban.required' => 'Masukkan jawaban!',
-          'salah1.required' => 'Masukkan salah salah 1!',
-          'salah2.required' => 'Masukkan salah salah 2!',
+          'user_id.required' => 'Masukkan user_id!',
+          'lesson_id.required' => 'Masukkan lesson_id!',
+          'question_text.required' => 'Masukkan Soal!',
         ]
       );
 
@@ -154,10 +139,7 @@ class QuizController extends Controller
         $post = Quiz::where('id', $request->$id)->update([
           'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
-          'soal' => $request->input('soal'),
-          'jawaban' => $request->input('jawaban'),
-          'salah1' => $request->input('salah1'),
-          'salah2' => $request->input('salah2'),
+          'question_text' => $request->input('question_text'),
         ]);
         if ($post) {
           return response()->json([
@@ -179,7 +161,7 @@ class QuizController extends Controller
      * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Quiz $quiz)
+    public function destroy(Quiz $quiz, $id)
     {
       $quiz = Quiz::findOrFail($id);
       if($quiz) {

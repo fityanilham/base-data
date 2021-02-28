@@ -114,7 +114,7 @@ class QuotesController extends Controller
      * @param  \App\Models\Quotes  $quotes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Quotes $quotes)
+    public function update(Request $request, Quotes $quotes, $id)
     {
       $quotes = Validator::make(
         $request->all(), [
@@ -161,7 +161,7 @@ class QuotesController extends Controller
      * @param  \App\Models\Quotes  $quotes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Quotes $quotes)
+    public function destroy(Quotes $quotes, $id)
     {
       $quotes = Quotes::findOrFail($id);
       if($quotes) {

@@ -117,7 +117,7 @@ class ChapterController extends Controller
      * @param  \App\Models\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chapter $chapter)
+    public function update(Request $request, Chapter $chapter, $id)
     {
       $chapter = Validator::make(
         $request->all(), [
