@@ -167,7 +167,7 @@ class QuizController extends Controller
      * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Quiz $quiz, $id)
+    public function destroy($id)
     {
       $quiz = Quiz::findOrFail($id);
       if($quiz) {
