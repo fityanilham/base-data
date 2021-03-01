@@ -84,7 +84,7 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz, $id)
     {
-      $quiz = Lesson::with('AnswerOption')->where('id', $id)->first();
+      $quiz = Quiz::with('AnswerOption')->where('id', $id)->first();
       if ($quiz) {
         return $quiz;
       } else {
