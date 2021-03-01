@@ -40,10 +40,12 @@ class AnswerOptionController extends Controller
         $AO = Validator::make(
             $request->all(), [
                 'quiz_id' => 'required',
+                'is_correct' => 'required',
                 'answer_text' => 'required',
             ],
             [
                 'quiz_id.required' => 'Masukkan quiz id!',
+                'is_correct.required' => 'Masukkan is correct!',
                 'answer_text.required' => 'Masukkan answer text!',
             ]
             );
@@ -57,6 +59,7 @@ class AnswerOptionController extends Controller
             }else {
             $post = AnswerOption::create([
                 'quiz_id' => $request->input('quiz_id'),
+                'is_correct' => $request->input('is_correct'),
                 'answer_text' => $request->input('answer_text'),
             ]);
             if ($post) {
@@ -116,10 +119,12 @@ class AnswerOptionController extends Controller
         $AO = Validator::make(
             $request->all(), [
                 'quiz_id' => 'required',
+                'is_correct' => 'required',
                 'answer_text' => 'required',
             ],
             [
                 'quiz_id.required' => 'Masukkan quiz id!',
+                'is_correct.required' => 'Masukkan is Correct!',
                 'answer_text.required' => 'Masukkan answer text!',
             ]
             );
@@ -133,6 +138,7 @@ class AnswerOptionController extends Controller
             }else {
             $post = AnswerOption::where('id', $request->$id)->update([
                 'quiz_id' => $request->input('quiz_id'),
+                'is_correct' => $request->input('is_correct'),
                 'answer_text' => $request->input('answer_text'),
             ]);
             if ($post) {

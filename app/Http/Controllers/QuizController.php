@@ -41,11 +41,13 @@ class QuizController extends Controller
         $request->all(), [
           // 'user_id' => 'required',
           'lesson_id' => 'required',
+          'pelajaran' => 'required',
           'question_text' => 'required',
         ],
         [
           // 'user_id.required' => 'Masukkan user id!',
           'lesson_id.required' => 'Masukkan lesson id!',
+          'pelajaran.required' => 'Masukkan pelajaran!',
           'question_text.required' => 'Masukkan Soal!',
         ]
       );
@@ -60,6 +62,7 @@ class QuizController extends Controller
         $post = Quiz::create([
           // 'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
+          'pelajaran' => $request->input('pelajaran'),
           'question_text' => $request->input('question_text'),
         ]);
         if ($post) {
@@ -120,11 +123,13 @@ class QuizController extends Controller
         $request->all(), [
           // 'user_id' => 'required',
           'lesson_id' => 'required',
+          'pelajaran' => 'required',
           'question_text' => 'required',
         ],
         [
           // 'user_id.required' => 'Masukkan user_id!',
           'lesson_id.required' => 'Masukkan lesson_id!',
+          'pelajaran.required' => 'Masukkan pelajaran!',
           'question_text.required' => 'Masukkan Soal!',
         ]
       );
@@ -139,6 +144,7 @@ class QuizController extends Controller
         $post = Quiz::where('id', $request->$id)->update([
           // 'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
+          'pelajaran' => $request->input('pelajaran'),
           'question_text' => $request->input('question_text'),
         ]);
         if ($post) {
