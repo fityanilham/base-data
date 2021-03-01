@@ -82,7 +82,7 @@ class QuotesController extends Controller
      * @param  \App\Models\Quotes  $quotes
      * @return \Illuminate\Http\Response
      */
-    public function show(Quotes $quotes)
+    public function show(Quotes $quotes, $id)
     {
       $quotes = Quotes::where('id', $id)->first();
       if ($quotes) {
