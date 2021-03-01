@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('/user', 'App\Http\Controllers\UserController');
     Route::resource('/quotes', 'App\Http\Controllers\QuotesController');
     Route::resource('/quiz', 'App\Http\Controllers\QuizController');
+    Route::get('/quiz/{id}', 'App\Http\Controllers\QuizController@show');
     Route::resource('/quiz-answer', 'App\Http\Controllers\AnswerOptionController');
     Route::resource('/pelajaran', 'App\Http\Controllers\LessonController');
     Route::resource('/bab', 'App\Http\Controllers\ChapterController');
