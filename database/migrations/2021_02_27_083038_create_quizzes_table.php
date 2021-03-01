@@ -15,7 +15,7 @@ class CreateQuizzesTable extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
+            // $table->integer('user_id')->unsigned();
             $table->integer('lesson_id')->unsigned();
             $table->string('question_text');
             $table->timestamps();
