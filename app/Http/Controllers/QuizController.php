@@ -82,9 +82,9 @@ class QuizController extends Controller
      * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function show(Quiz $quiz, $id)
+    public function show($id)
     {
-      $quiz = Quiz::where('id', $id)->first();
+      $quiz = Quiz::with('AnswerOption')->where('id', $id)->first();
       if ($quiz) {
         return $quiz;
       } else {
