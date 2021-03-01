@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AnswerOption;
 use Illuminate\Http\Request;
-use validator;
+use Illuminate\Support\Facades\Validator;
 
 class AnswerOptionController extends Controller
 {
