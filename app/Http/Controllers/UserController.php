@@ -193,7 +193,9 @@ class UserController extends Controller
         $success['name'] =  $user->name;
 
         return response()->json([
-          'success'=> $success,
+          'token' => $success,
+          'message' => 'Berhasil mendaftar',
+          'user' => $user
         ], $this->successStatus);
     }
 
