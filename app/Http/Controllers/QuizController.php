@@ -117,7 +117,7 @@ class QuizController extends Controller
      * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Quiz $quiz, $id)
+    public function update(Request $request, $id)
     {
       $quiz = Validator::make(
         $request->all(), [
@@ -141,7 +141,7 @@ class QuizController extends Controller
           'data'    => $quiz->errors()
         ],401);
       }else {
-        $post = Quiz::where('id', $request->$id)->update([
+        $post = Quiz::where('id', $request->id)->update([
           // 'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
           'pelajaran' => $request->input('pelajaran'),

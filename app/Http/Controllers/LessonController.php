@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Response;
 
 class LessonController extends Controller
 {
@@ -122,6 +123,40 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
+    //   try{
+            
+    //     $validator = Validator::make($request->all(), [
+    //       'user_id'  => 'required',
+    //       'pelajaran' => 'required',
+    //       'guru' => 'required',
+    //       'tingkatan' => 'required',
+    //       'deskripsi' => 'required',
+    //     ]);
+ 
+    //     if ($validator->fails()) {
+    //         return Response::json(['errors' => $validator->errors()],400);
+    //     }
+ 
+    //     $lesson = Lesson::where('id', $id)->first();
+ 
+    //     $lesson->user_id = $request->user_id;
+    //     $lesson->pelajaran = $request->pelajaran;
+    //     $lesson->guru = $request->guru;
+    //     $lesson->tingkatan = $request->tingkatan;
+    //     $lesson->deskripsi = $request->deskripsi;
+    //     $lesson->update();
+        
+    //     return Response::json(['data' => 'updated successfully'],200);
+    // }catch(Exception $e){
+    //     return Response::json(['errors' => 'Bad Request'], 400);
+    // }
+      Lesson::where('id', $request->id)->update([
+        'user_id' => $request->input('user_id'),
+          'pelajaran' => $request->input('pelajaran'),
+          'guru' => $request->input('guru'),
+          'tingkatan' => $request->input('tingkatan'),
+          'deskripsi' => $request->input('deskripsi'),
+      ]);
       $lesson = Validator::make(
         $request->all(), [
           'user_id'  => 'required',
@@ -146,7 +181,7 @@ class LessonController extends Controller
           'data' => $lesson->errors()
         ],401);
       } else {
-        $post = Lesson::where('id', $request->id)->update([
+        $post = Lesson::where('id', $id)->update([
           'user_id' => $request->input('user_id'),
           'pelajaran' => $request->input('pelajaran'),
           'guru' => $request->input('guru'),

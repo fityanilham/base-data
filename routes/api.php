@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('/quiz', 'App\Http\Controllers\QuizController');
     Route::resource('/answer', 'App\Http\Controllers\AnswerOptionController');
     Route::resource('/pelajaran', 'App\Http\Controllers\LessonController');
+    Route::put('/pelajaran{id}', 'App\Http\Controllers\LessonController@update');
     Route::resource('/bab', 'App\Http\Controllers\ChapterController');
 });
 
