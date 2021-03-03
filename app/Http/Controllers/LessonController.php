@@ -123,83 +123,64 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-    //   try{
-            
-    //     $validator = Validator::make($request->all(), [
-    //       'user_id'  => 'required',
-    //       'pelajaran' => 'required',
-    //       'guru' => 'required',
-    //       'tingkatan' => 'required',
-    //       'deskripsi' => 'required',
-    //     ]);
- 
-    //     if ($validator->fails()) {
-    //         return Response::json(['errors' => $validator->errors()],400);
-    //     }
- 
-    //     $lesson = Lesson::where('id', $id)->first();
- 
-    //     $lesson->user_id = $request->user_id;
-    //     $lesson->pelajaran = $request->pelajaran;
-    //     $lesson->guru = $request->guru;
-    //     $lesson->tingkatan = $request->tingkatan;
-    //     $lesson->deskripsi = $request->deskripsi;
-    //     $lesson->update();
-        
-    //     return Response::json(['data' => 'updated successfully'],200);
-    // }catch(Exception $e){
-    //     return Response::json(['errors' => 'Bad Request'], 400);
-    // }
-      Lesson::where('id', $request->id)->update([
-        'user_id' => $request->input('user_id'),
-          'pelajaran' => $request->input('pelajaran'),
-          'guru' => $request->input('guru'),
-          'tingkatan' => $request->input('tingkatan'),
-          'deskripsi' => $request->input('deskripsi'),
-      ]);
-      $lesson = Validator::make(
-        $request->all(), [
-          'user_id'  => 'required',
-          'pelajaran' => 'required',
-          'guru' => 'required',
-          'tingkatan' => 'required',
-          'deskripsi' => 'required',
-        ],
-        [
-          'user_id.required' => 'Masukkan user id!',
-          'pelajaran.required' => 'Masukkan nama pelajaran!',
-          'guru.required' => 'Masukkan nama guru!',
-          'tingkatan.required' => 'Masukkan tingkat kesulitan!',
-          'deskripsi.required' => 'Masukkan deskripsi pelajaran!',
-        ]
-      );
+      if (Lesson::where('id', $id)->exists()) {
+        $lesson = Lesson::find($id);
 
-      if($lesson->fails()) {
+        $lesson->pelajaran = is_null($request->pelajaran) ? $lesson->pelajaran : $lesson->pelajaran;
+        $lesson->guru = is_null($request->guru) ? $lesson->guru : $lesson->guru;
+        $lesson->tingkatan = is_null($request->tingkatan) ? $lesson->tingkatan : $lesson->tingkatan;
+        $lesson->deskripsi = is_null($request->deskripsi) ? $lesson->deskripsi : $lesson->deskripsi;
+        $lesson->save();
+
         return response()->json([
-          'success' => false,
-          'message' => 'Silahkan isi bagian yang kosong',
-          'data' => $lesson->errors()
-        ],401);
+          'success' => true,
+          'message' => 'Data berhasil diupdate!',
+        ], 200);
       } else {
-        $post = Lesson::where('id', $id)->update([
-          'user_id' => $request->input('user_id'),
-          'pelajaran' => $request->input('pelajaran'),
-          'guru' => $request->input('guru'),
-          'tingkatan' => $request->input('tingkatan'),
-          'deskripsi' => $request->input('deskripsi'),
-        ]);
-        if ($post) {
-          return response()->json([
-            'success' => true,
-            'message' => 'Data berhasil diupdate!',
-          ], 200);
-        } else {
-          return response()->json([
-            'success' => false,
-            'message' => 'Data gagal diupdate!',
-          ], 401);
-        }
+        return response()->json([
+          "message" => "buku"
+        ], 404);
       }
+      // $lesson = Validator::make(
+      //   $request->all(), [
+      //     'pelajaran' => '',
+      //     'guru' => '',
+      //     'tingkatan' => '',
+      //     'deskripsi' => '',
+      //   ],
+      //   [
+      //     'pelajaran.' => 'Masukkan nama pelajaran!',
+      //     'guru.' => 'Masukkan nama guru!',
+      //     'tingkatan.' => 'Masukkan tingkat kesulitan!',
+      //     'deskripsi.' => 'Masukkan deskripsi pelajaran!',
+      //   ]
+      // );
+
+      // if($lesson->fails()) {
+      //   return response()->json([
+      //     'success' => false,
+      //     'message' => 'Silahkan isi bagian yang kosong',
+      //     'data' => $lesson->errors()
+      //   ],401);
+      // } else {
+      //   $post = Lesson::where('id', $request->id)->update([
+      //     'pelajaran' => $request->input('pelajaran'),
+      //     'guru' => $request->input('guru'),
+      //     'tingkatan' => $request->input('tingkatan'),
+      //     'deskripsi' => $request->input('deskripsi'),
+      //   ]);
+      //   if ($post) {
+      //     return response()->json([
+      //       'success' => true,
+      //       'message' => 'Data berhasil diupdate!',
+      //     ], 200);
+      //   } else {
+      //     return response()->json([
+      //       'success' => false,
+      //       'message' => 'Data gagal diupdate!',
+      //     ], 401);
+      //   }
+      // }
     }
 
     /**
