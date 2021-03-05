@@ -8,6 +8,27 @@ use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
+    public function search(Request $request, $lesson_id)
+    {
+      $quiz = Quiz::select("*")->orderBy("nmae", "asc");
+      if ($request->cari) {
+        $query = $request->cari;
+        $quiz->where(function($key)
+        {
+          $key->where('lesson_id', 'LIKE', "%".$query."%");
+        });
+      } else {
+        return Response()->json([
+          'message' => 'lesson id tidak di temukan',
+      ], 404);
+      }
+      
+
+      return Response()->json([
+          'status' => 'success',
+          'data' => $quiz
+      ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,13 +60,11 @@ class QuizController extends Controller
     {
       $quiz = Validator::make(
         $request->all(), [
-          // 'user_id' => 'required',
           'lesson_id' => 'required',
           'pelajaran' => 'required',
           'question_text' => 'required',
         ],
         [
-          // 'user_id.required' => 'Masukkan user id!',
           'lesson_id.required' => 'Masukkan lesson id!',
           'pelajaran.required' => 'Masukkan pelajaran!',
           'question_text.required' => 'Masukkan Soal!',
@@ -60,7 +79,6 @@ class QuizController extends Controller
         ],401);
       }else {
         $post = Quiz::create([
-          // 'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
           'pelajaran' => $request->input('pelajaran'),
           'question_text' => $request->input('question_text'),
@@ -119,45 +137,55 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $quiz = Validator::make(
-        $request->all(), [
-          // 'user_id' => 'required',
-          'lesson_id' => 'required',
-          'pelajaran' => 'required',
-          'question_text' => 'required',
-        ],
-        [
-          // 'user_id.required' => 'Masukkan user_id!',
-          'lesson_id.required' => 'Masukkan lesson_id!',
-          'pelajaran.required' => 'Masukkan pelajaran!',
-          'question_text.required' => 'Masukkan Soal!',
-        ]
-      );
+      // $quiz = Validator::make(
+      //   $request->all(), [
+      //     // 'user_id' => 'required',
+      //     'lesson_id' => 'required',
+      //     'pelajaran' => 'required',
+      //     'question_text' => 'required',
+      //   ],
+      //   [
+      //     // 'user_id.required' => 'Masukkan user_id!',
+      //     'lesson_id.required' => 'Masukkan lesson_id!',
+      //     'pelajaran.required' => 'Masukkan pelajaran!',
+      //     'question_text.required' => 'Masukkan Soal!',
+      //   ]
+      // );
 
-      if($quiz->fails()) {
+      // if($quiz->fails()) {
+      //   return response()->json([
+      //     'success' => false,
+      //     'message' => 'Silahkan isi bagian yang kosong',
+      //     'data'    => $quiz->errors()
+      //   ],401);
+      // }else {
+      //   $post = Quiz::where('id', $request->id)->update([
+      //     // 'user_id' => $request->input('user_id'),
+      //     'lesson_id' => $request->input('lesson_id'),
+      //     'pelajaran' => $request->input('pelajaran'),
+      //     'question_text' => $request->input('question_text'),
+      //   ]);
+      //   if ($post) {
+      //     return response()->json([
+      //       'success' => true,
+      //       'message' => 'Data berhasil disimpan!',
+      //     ], 200);
+      //   } else {
+      //     return response()->json([
+      //       'success' => false,
+      //       'message' => 'Data gagal disimpan!',
+      //     ], 401);
+      //   }
+      // }
+      $quiz = Quiz::where('id', $id)->first();
+      $quiz -> lesson_id = $request -> lesson_id;
+      $quiz -> pelajaran = $request -> pelajaran;
+      $quiz -> question_text = $request -> question_text;
+      if($quiz->update()) {
         return response()->json([
           'success' => false,
-          'message' => 'Silahkan isi bagian yang kosong',
-          'data'    => $quiz->errors()
-        ],401);
-      }else {
-        $post = Quiz::where('id', $request->id)->update([
-          // 'user_id' => $request->input('user_id'),
-          'lesson_id' => $request->input('lesson_id'),
-          'pelajaran' => $request->input('pelajaran'),
-          'question_text' => $request->input('question_text'),
-        ]);
-        if ($post) {
-          return response()->json([
-            'success' => true,
-            'message' => 'Data berhasil disimpan!',
-          ], 200);
-        } else {
-          return response()->json([
-            'success' => false,
-            'message' => 'Data gagal disimpan!',
-          ], 401);
-        }
+          'message' => 'Berhasil Update data',
+        ],201);
       }
     }
 

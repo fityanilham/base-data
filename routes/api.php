@@ -33,10 +33,11 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', 'App\Http\Controllers\UserController@logout');
     Route::resource('/user', 'App\Http\Controllers\UserController');
     Route::resource('/quotes', 'App\Http\Controllers\QuotesController');
+    Route::get('/quiz/{lesson_id}', 'App\Http\Controllers\QuizController@search');
     Route::resource('/quiz', 'App\Http\Controllers\QuizController');
     Route::resource('/answer', 'App\Http\Controllers\AnswerOptionController');
-    Route::resource('/pelajaran', 'App\Http\Controllers\LessonController');
-    Route::put('/pelajaran{id}', 'App\Http\Controllers\LessonController@update');
+    // Route::resource('/pelajaran', 'App\Http\Controllers\LessonController');
+    Route::apiResource('/pelajaran', 'App\Http\Controllers\LessonController');
     Route::resource('/bab', 'App\Http\Controllers\ChapterController');
 });
 

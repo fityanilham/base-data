@@ -56,9 +56,9 @@ class UserController extends Controller
     public function show($id)
     {
       $user = Auth::user();
-      return response->json([
-        'success' =>$user
-      ], 200);
+      return response()->json([
+        'success' => $user,
+      ],200);
     }
 
     /**
@@ -81,46 +81,56 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $user = Validator::make(
-        $request->all(), [
-          'name' => 'required',
-          'email' => 'required',
-          'password' => 'required',
-          'role' => 'required',
-        ],
-        [
-          'name.required' => 'Masukkan nama depan!',
-          'email.required' => 'Masukkan email!',
-          'password.required' => 'Masukkan password!',
-          'role.required' => 'Masukkan role!',
-        ]
-      );
-
-      if($user->fails()) {
+      $user = User::where('id', $id)->first();
+      $user -> name = $request -> name;
+      $user -> email = $request -> email;
+      $user -> password = $request -> password;
+      $user -> role = $request -> role;
+      if($user->update()) {
         return response()->json([
           'success' => false,
-          'message' => 'Silahkan isi bagian yang kosong',
-          'data' => $user->errors()
-        ],401);
-      }else {
-        $post = User::where('id', $request->id)->update([
-          'name' => $request->input('name'),
-          'email' => $request->input('email'),
-          'password' => $request->input('password'),
-          'role' => $request->input('role'),
-        ]);
-        if ($post) {
-          return response()->json([
-            'success' => true,
-            'message' => 'Data berhasil diupdate!',
-          ], 200);
-        } else {
-          return response()->json([
-            'success' => false,
-            'message' => 'Data gagal diupdate!',
-          ], 401);
-        }
+          'message' => 'Berhasil Update data',
+        ],201);
       }
+      // $user = Validator::make(
+      //   $request->all(), [
+      //     'name' => 'required',
+      //     'email' => 'required',
+      //     'password' => 'required',
+      //     'role' => 'required',
+      //   ],
+      //   [
+      //     'name.required' => 'Masukkan nama depan!',
+      //     'email.required' => 'Masukkan email!',
+      //     'password.required' => 'Masukkan password!',
+      //     'role.required' => 'Masukkan role!',
+      //   ]
+      // );
+      // if($user->fails()) {
+      //   return response()->json([
+      //     'success' => false,
+      //     'message' => 'Silahkan isi bagian yang kosong',
+      //     'data' => $user->errors()
+      //   ],401);
+      // }else {
+      //   $post = User::where('id', $request->id)->update([
+      //     'name' => $request->input('name'),
+      //     'email' => $request->input('email'),
+      //     'password' => $request->input('password'),
+      //     'role' => $request->input('role'),
+      //   ]);
+      //   if ($post) {
+      //     return response()->json([
+      //       'success' => true,
+      //       'message' => 'Data berhasil diupdate!',
+      //     ], 200);
+      //   } else {
+      //     return response()->json([
+      //       'success' => false,
+      //       'message' => 'Data gagal diupdate!',
+      //     ], 401);
+      //   }
+      // }
     }
 
     /**
@@ -152,6 +162,12 @@ class UserController extends Controller
       if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
         $user = Auth::user();
         $success['token'] =  $user->createToken('nApp')->accessToken;
+        $success['message'] = 'Login successfull';
+        // return response()->json([
+        //   'token' => $success,
+        //   'message' => 'Berhasil login',
+        //   'user' => $user
+        // ], $this->successStatus);
         if ($user->email_verified_at !== NULL) {
           $success['message'] = 'Login successfull';
           return response()->json([
@@ -160,7 +176,7 @@ class UserController extends Controller
             'user' => $user
           ], $this->successStatus);
         } else {
-          return response()->json(['error'=>'Tolong konfirmasi email kamu di mail box!'], 401);
+          return response()->json(['message'=>'Tolong konfirmasi email kamu di mail box!'], 401);
         }
       } else {
         return response()->json([
@@ -173,15 +189,15 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'role' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-              'error' => $validator->errors()
-            ], 401);
+          return response()->json([
+            'message' => "Email sudah terdaftar silahkan login"
+          ], 401);
         }
 
         $input = $request->all();

@@ -37,43 +37,53 @@ class QuotesController extends Controller
      */
     public function store(Request $request)
     {
-      $quotes = Validator::make(
-        $request->all(), [
-          'arab' => 'required',
-          'arti' => 'required',
-          'latin' => 'required',
-        ],
-        [
-          'arab.required' => 'Masukkan arabnya!',
-          'arti.required' => 'Masukkan artinya!',
-          'latin.required' => 'Masukkan latinnya!',
-        ]
-      );
-
-      if($quotes->fails()) {
+      $quotes = Quotes::where('id', $id)->first();
+      $quotes -> arab = $request -> arab;
+      $quotes -> arti = $request -> arti;
+      $quotes -> latin = $request -> latin;
+      if($quotes->update()) {
         return response()->json([
           'success' => false,
-          'message' => 'Silahkan isi bagian yang kosong',
-          'data'    => $quotes->errors()
-        ],401);
-      }else {
-        $post = Quotes::create([
-          'arab' => $request->input('arab'),
-          'arti' => $request->input('arti'),
-          'latin' => $request->input('latin'),
-        ]);
-        if ($post) {
-          return response()->json([
-            'success' => true,
-            'message' => 'Data berhasil disimpan!',
-          ], 200);
-        } else {
-          return response()->json([
-            'success' => false,
-            'message' => 'Data gagal disimpan!',
-          ], 401);
-        }
+          'message' => 'Berhasil Update data',
+        ],201);
       }
+      // $quotes = Validator::make(
+      //   $request->all(), [
+      //     'arab' => 'required',
+      //     'arti' => 'required',
+      //     'latin' => 'required',
+      //   ],
+      //   [
+      //     'arab.required' => 'Masukkan arabnya!',
+      //     'arti.required' => 'Masukkan artinya!',
+      //     'latin.required' => 'Masukkan latinnya!',
+      //   ]
+      // );
+
+      // if($quotes->fails()) {
+      //   return response()->json([
+      //     'success' => false,
+      //     'message' => 'Silahkan isi bagian yang kosong',
+      //     'data'    => $quotes->errors()
+      //   ],401);
+      // }else {
+      //   $post = Quotes::create([
+      //     'arab' => $request->input('arab'),
+      //     'arti' => $request->input('arti'),
+      //     'latin' => $request->input('latin'),
+      //   ]);
+      //   if ($post) {
+      //     return response()->json([
+      //       'success' => true,
+      //       'message' => 'Data berhasil disimpan!',
+      //     ], 200);
+      //   } else {
+      //     return response()->json([
+      //       'success' => false,
+      //       'message' => 'Data gagal disimpan!',
+      //     ], 401);
+      //   }
+      // }
     }
 
     /**

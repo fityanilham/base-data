@@ -116,42 +116,52 @@ class AnswerOptionController extends Controller
      */
     public function update(Request $request, AnswerOption $answerOption, $id)
     {
-        $AO = Validator::make(
-            $request->all(), [
-                'quiz_id' => 'required',
-                'is_correct' => 'required',
-                'answer_text' => 'required',
-            ],
-            [
-                'quiz_id.required' => 'Masukkan quiz id!',
-                'is_correct.required' => 'Masukkan is Correct!',
-                'answer_text.required' => 'Masukkan answer text!',
-            ]
-            );
+        // $AO = Validator::make(
+        //     $request->all(), [
+        //         'quiz_id' => 'required',
+        //         'is_correct' => 'required',
+        //         'answer_text' => 'required',
+        //     ],
+        //     [
+        //         'quiz_id.required' => 'Masukkan quiz id!',
+        //         'is_correct.required' => 'Masukkan is Correct!',
+        //         'answer_text.required' => 'Masukkan answer text!',
+        //     ]
+        //     );
 
-            if($AO->fails()) {
+        //     if($AO->fails()) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Silahkan isi bagian yang kosong',
+        //         'data'    => $AO->errors()
+        //     ],401);
+        //     }else {
+        //     $post = AnswerOption::where('id', $request->$id)->update([
+        //         'quiz_id' => $request->input('quiz_id'),
+        //         'is_correct' => $request->input('is_correct'),
+        //         'answer_text' => $request->input('answer_text'),
+        //     ]);
+        //     if ($post) {
+        //         return response()->json([
+        //         'success' => true,
+        //         'message' => 'Data berhasil disimpan!',
+        //         ], 200);
+        //     } else {
+        //         return response()->json([
+        //         'success' => false,
+        //         'message' => 'Data gagal disimpan!',
+        //         ], 401);
+        //     }
+        // }
+        $OA = AnswerOption::where('id', $id)->first();
+        $OA -> quiz_id = $request -> quiz_id;
+        $OA -> is_correct = $request -> is_correct;
+        $OA -> answer_tex = $request -> answer_tex;
+        if($OA->update()) {
             return response()->json([
-                'success' => false,
-                'message' => 'Silahkan isi bagian yang kosong',
-                'data'    => $AO->errors()
-            ],401);
-            }else {
-            $post = AnswerOption::where('id', $request->$id)->update([
-                'quiz_id' => $request->input('quiz_id'),
-                'is_correct' => $request->input('is_correct'),
-                'answer_text' => $request->input('answer_text'),
-            ]);
-            if ($post) {
-                return response()->json([
-                'success' => true,
-                'message' => 'Data berhasil disimpan!',
-                ], 200);
-            } else {
-                return response()->json([
-                'success' => false,
-                'message' => 'Data gagal disimpan!',
-                ], 401);
-            }
+            'success' => false,
+            'message' => 'Berhasil Update data',
+            ],201);
         }
     }
 
