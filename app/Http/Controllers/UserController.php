@@ -156,8 +156,6 @@ class UserController extends Controller
       }
     }
 
-    public $successStatus = 200;
-
     public function login(){
       if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
         $user = Auth::user();
@@ -174,7 +172,7 @@ class UserController extends Controller
             'token' => $success,
             'message' => 'Berhasil login',
             'user' => $user
-          ], $this->successStatus);
+          ], 200);
         } else {
           return response()->json(['message'=>'Tolong konfirmasi email kamu di mail box!'], 403);
         }
@@ -212,7 +210,7 @@ class UserController extends Controller
           'token' => $success,
           'message' => 'Berhasil mendaftar',
           'user' => $user
-        ], $this->successStatus);
+        ], 200);
     }
 
     public function logout(Request $request) {
