@@ -176,7 +176,7 @@ class UserController extends Controller
             'user' => $user
           ], $this->successStatus);
         } else {
-          return response()->json(['message'=>'Tolong konfirmasi email kamu di mail box!'], 401);
+          return response()->json(['message'=>'Tolong konfirmasi email kamu di mail box!'], 403);
         }
       } else {
         return response()->json([
