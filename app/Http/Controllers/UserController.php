@@ -191,26 +191,28 @@ class UserController extends Controller
             'password' => 'required',
             'role' => 'required',
         ]);
-
+        
         if ($validator->fails()) {
           return response()->json([
             'message' => "Email sudah terdaftar silahkan login"
-          ], 401);
+          ],500);
+        } else {
+          $input = $request->all();
+          $input['role'] = $request->role;
+          $input['name'] = $request->name;
+          $input['email'] = $request->email;
+          $input['password'] = bcrypt($input['password']);
+          $user = User::create($input);
+          $user->sendApiEmailVerificationNotification();
+          $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
+          $success['token'] =  $user->createToken('nApp')->accessToken;
+          $success['name'] =  $user->name;
+          return response()->json([
+            'token' => $success,
+            'message' => 'Berhasil mendaftar',
+            'user' => $user
+          ], 200);
         }
-
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $user->sendApiEmailVerificationNotification();
-        $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
-        $success['token'] =  $user->createToken('nApp')->accessToken;
-        $success['name'] =  $user->name;
-
-        return response()->json([
-          'token' => $success,
-          'message' => 'Berhasil mendaftar',
-          'user' => $user
-        ], 200);
     }
 
     public function logout(Request $request) {
