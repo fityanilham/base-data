@@ -18,6 +18,7 @@ class CreateQuizzesTable extends Migration
             $table->integer('lesson_id')->unsigned();
             $table->string('pelajaran');
             $table->string('question_text');
+            $table->string('answer_options');
             $table->timestamps();
         });
     }

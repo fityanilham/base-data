@@ -13,6 +13,7 @@ class Quiz extends Model
         'lesson_id',
         'pelajaran',
         'question_text',
+        'answer_options'
     ];
 
     public function lesson()
@@ -20,8 +21,8 @@ class Quiz extends Model
         return $this->belongTo(Lesson::class);
     }
 
-    public function answerOption()
-    {
-        return $this->hasMany(AnswerOption::class);
-    }
+    // public function answerOption()
+    // {
+    //     return $this->hasMany(AnswerOption::class);
+    // }
 }

@@ -36,7 +36,8 @@ class QuizController extends Controller
      */
     public function index()
     {
-      $quiz = Quiz::with('AnswerOption')->get();
+      $quiz = Quiz::get();
+      // $quiz = Quiz::with('AnswerOption')->get();
       return $quiz;
     }
 
@@ -63,11 +64,13 @@ class QuizController extends Controller
           'lesson_id' => 'required',
           'pelajaran' => 'required',
           'question_text' => 'required',
+          'answer_options' => 'required',
         ],
         [
           'lesson_id.required' => 'Masukkan lesson id!',
           'pelajaran.required' => 'Masukkan pelajaran!',
           'question_text.required' => 'Masukkan Soal!',
+          'answer_options.required' => 'Masukkan jawaban!',
         ]
       );
 
@@ -82,6 +85,7 @@ class QuizController extends Controller
           'lesson_id' => $request->input('lesson_id'),
           'pelajaran' => $request->input('pelajaran'),
           'question_text' => $request->input('question_text'),
+          'answer_options' => $request->input('answer_options'),
         ]);
         if ($post) {
           return response()->json([
@@ -181,6 +185,7 @@ class QuizController extends Controller
       $quiz -> lesson_id = $request -> lesson_id;
       $quiz -> pelajaran = $request -> pelajaran;
       $quiz -> question_text = $request -> question_text;
+      $quiz -> answer_options = $request -> answer_options;
       if($quiz->update()) {
         return response()->json([
           'success' => false,
