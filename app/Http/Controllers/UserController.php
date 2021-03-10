@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-      $user = User::with('lesson')->get();
+      $user = User::with('user')->get();
     // $user = User::get();
       return $user;
     }
@@ -82,15 +82,20 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
       $user = User::where('id', $id)->first();
-      $user -> name = $request -> name;
-      $user -> email = $request -> email;
-      $user -> password = $request -> password;
       $user -> role = $request -> role;
+      $user -> name = $request -> name;
+      // $user -> email = $request -> email;
+
       if($user->update()) {
+        // $user->sendApiEmailVerificationNotification();
+        // $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
+        $success['token'] =  $user->createToken('nApp')->accessToken;
+        $success['name'] =  $user->name;
         return response()->json([
-          'success' => false,
-          'message' => 'Berhasil Update data',
-        ],201);
+          'token' => $success,
+          'message' => 'Berhasil update data',
+          'user' => $user
+        ], 200);
       }
       // $user = Validator::make(
       //   $request->all(), [
@@ -214,6 +219,26 @@ class UserController extends Controller
           ], 200);
         }
     }
+
+    // public function editAccount(Request $request, $id)
+    // {
+    //   $id = Auth::user();
+    //   $user = User::find('id', $id)->first();
+    //   $user -> name = $request -> name;
+    //   $user -> email = $request -> email;
+    //   $user -> role = $request -> role;
+    //   if($user->update()) {
+    //     $user->sendApiEmailVerificationNotification();
+    //     $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
+    //     $success['token'] =  $user->createToken('nApp')->accessToken;
+    //     $success['name'] =  $user->name;
+    //     return response()->json([
+    //       'token' => $success,
+    //       'message' => 'Berhasil update data',
+    //       'user' => $user
+    //     ], 200);
+    //   } 
+    // }
 
     public function logout(Request $request) {
       $logout = $request->user()->token()->revoke();
