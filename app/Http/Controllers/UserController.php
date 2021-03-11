@@ -250,17 +250,28 @@ class UserController extends Controller
       );
       $validator = Validator::make($input, $rules);
       if ($validator->fails()) {
-          // $arr = array("status" => 401, "message" => $validator->errors()->first());
-          $arr = array("status" => 401, "message" => "Kata sandi baru harus lebih dari 6 karakter");
+          return response()->json([
+            "message" => $validator->errors()->first(),
+            "data" => array()
+          ], 401);
       } else {
           try {
               if ((Hash::check(request('old_password'), Auth::user()->password)) == false) {
-                  $arr = array("status" => 401, "message" => "Kata sandi lama anda salah");
+                  return response()->json([
+                    "message" => "Kata sandi lama anda salah",
+                    "data" => array()
+                  ], 401);
               } else if ((Hash::check(request('new_password'), Auth::user()->password)) == true) {
-                  $arr = array("status" => 400, "message" => "Kata sandi lama dan baru tidak boleh sama");
+                  return response()->json([
+                    "message" => "Kata sandi lama dan baru tidak boleh sama",
+                    "data" => array()
+                  ], 401);
               } else {
                   User::where('id', $userid)->update(['password' => Hash::make($input['new_password'])]);
-                  $arr = array("status" => 200, "message" => "Berhasil mengganti kata sandi");
+                  return response()->json([
+                    "message" => "Berhasil mengganti kata sandi",
+                    "data" => array()
+                  ], 200);
               }
           } catch (\Exception $ex) {
               if (isset($ex->errorInfo[2])) {
@@ -268,7 +279,7 @@ class UserController extends Controller
               } else {
                   $msg = $ex->getMessage();
               }
-              $arr = array("status" => 400, "message" => $msg);
+              $arr = array("status" => 400, "message" => $msg, "data" => array());
           }
       }
       return \Response::json($arr);
