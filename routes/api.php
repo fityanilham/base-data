@@ -31,8 +31,9 @@ Route::post('/register', $url . '\UserController@register');
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', 'App\Http\Controllers\UserController@logout');
-    Route::get('change-password', 'App\Http\Controllers\ChangePasswordController@index');
-    Route::post('change-password', 'App\Http\Controllers\ChangePasswordController@store')->name('change.password');
+    Route::post('change-password', 'App\Http\Controllers\UserController@changePassword');
+    // Route::get('change-password', 'App\Http\Controllers\ChangePasswordController@index');
+    // Route::post('change-password', 'App\Http\Controllers\ChangePasswordController@store')->name('change.password');
     Route::resource('/user', 'App\Http\Controllers\UserController');
     Route::resource('/quotes', 'App\Http\Controllers\QuotesController');
     Route::get('/quiz/{lesson_id}', 'App\Http\Controllers\QuizController@search');

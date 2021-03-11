@@ -21,8 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-      $user = User::with('user')->get();
-    // $user = User::get();
+      $user = User::with('lesson')->get();
       return $user;
     }
 
@@ -239,6 +238,41 @@ class UserController extends Controller
     //     ], 200);
     //   } 
     // }
+
+    public function changePassword(Request $request)
+    {
+      $input = $request->all();
+      $userid = Auth::guard('api')->user()->id;
+      $rules = array(
+          'old_password' => 'required',
+          'new_password' => 'required|min:6',
+          'confirm_password' => 'required|same:new_password',
+      );
+      $validator = Validator::make($input, $rules);
+      if ($validator->fails()) {
+          // $arr = array("status" => 401, "message" => $validator->errors()->first());
+          $arr = array("status" => 401, "message" => "Kata sandi baru harus lebih dari 6 karakter");
+      } else {
+          try {
+              if ((Hash::check(request('old_password'), Auth::user()->password)) == false) {
+                  $arr = array("status" => 401, "message" => "Kata sandi lama anda salah");
+              } else if ((Hash::check(request('new_password'), Auth::user()->password)) == true) {
+                  $arr = array("status" => 400, "message" => "Kata sandi lama dan baru tidak boleh sama");
+              } else {
+                  User::where('id', $userid)->update(['password' => Hash::make($input['new_password'])]);
+                  $arr = array("status" => 200, "message" => "Berhasil mengganti kata sandi");
+              }
+          } catch (\Exception $ex) {
+              if (isset($ex->errorInfo[2])) {
+                  $msg = $ex->errorInfo[2];
+              } else {
+                  $msg = $ex->getMessage();
+              }
+              $arr = array("status" => 400, "message" => $msg);
+          }
+      }
+      return \Response::json($arr);
+    }
 
     public function logout(Request $request) {
       $logout = $request->user()->token()->revoke();
