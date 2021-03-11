@@ -251,7 +251,7 @@ class UserController extends Controller
       $validator = Validator::make($input, $rules);
       if ($validator->fails()) {
           return response()->json([
-            "message" => $validator->errors()->first(),
+            "message" => "Kata sandi baru dan konfirmasi kata sandi harus sama",
             "data" => array()
           ], 500);
       } else {
