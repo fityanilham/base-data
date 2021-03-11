@@ -253,7 +253,7 @@ class UserController extends Controller
           return response()->json([
             "message" => $validator->errors()->first(),
             "data" => array()
-          ], 401);
+          ], 500);
       } else {
           try {
               if ((Hash::check(request('old_password'), Auth::user()->password)) == false) {
@@ -279,7 +279,10 @@ class UserController extends Controller
               } else {
                   $msg = $ex->getMessage();
               }
-              $arr = array("status" => 400, "message" => $msg, "data" => array());
+              return response()->json([
+                "message" => $msg,
+                "data" => array()
+              ], 400);
           }
       }
       return \Response::json($arr);
