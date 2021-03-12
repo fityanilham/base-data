@@ -8,37 +8,50 @@ use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
-    public function search(Request $request, $lesson_id)
-    {
-      $quiz = Quiz::select("*")->orderBy("nmae", "asc");
-      if ($request->cari) {
-        $query = $request->cari;
-        $quiz->where(function($key)
-        {
-          $key->where('lesson_id', 'LIKE', "%".$query."%");
-        });
-      } else {
-        return Response()->json([
-          'message' => 'lesson id tidak di temukan',
-      ], 404);
-      }
+    // public function search(Request $request, $lesson_id)
+    // {
+    //   $quiz = Quiz::select("*")->orderBy("nmae", "asc");
+    //   if ($request->cari) {
+    //     $query = $request->cari;
+    //     $quiz->where(function($key) use($query)
+    //     {
+    //       $key->where('lesson_id', 'LIKE', "%".$query."%");
+    //     });
+    //   } 
+    //   // else {
+    //   //   return Response()->json([
+    //   //     'message' => 'lesson id tidak di temukan',
+    //   // ], 404);
+    //   // }
       
 
-      return Response()->json([
-          'status' => 'success',
-          'data' => $quiz
-      ], 200);
-    }
+    //   return Response()->json([
+    //       'status' => 'success',
+    //       'data' => $quiz
+    //   ], 200);
+    // }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      $quiz = Quiz::get();
-      // $quiz = Quiz::with('AnswerOption')->get();
-      return $quiz;
+      // $quiz = Quiz::get();
+      // return $quiz;
+      $quiz = Quiz::select("*");
+      if ($request->cari) {
+        $query = $request->cari;
+        $quiz->where(function($key) use($query)
+        {
+          $key->where('lesson_id', 'LIKE', "%".$query."%");
+        });
+      }
+
+      return response()->json([
+        "message" => "Berhasil boss",
+        "data" => $quiz->get(),
+      ]);
     }
 
     /**
