@@ -173,18 +173,24 @@ class QuizController extends Controller
       //     ], 401);
       //   }
       // }
-      $quiz = Quiz::where('id', $id)->first();
-      $quiz -> user_id = $request -> user_id;
-      $quiz -> lesson_id = $request -> lesson_id;
-      $quiz -> pelajaran = $request -> pelajaran;
-      $quiz -> question_text = $request -> question_text;
-      $quiz -> answer_options = $request -> answer_options;
-      if($quiz->update()) {
-        return response()->json([
-          'success' => false,
-          'message' => 'Berhasil Update data',
-        ],201);
-      }
+      $request->validate([
+        'user_id',
+        'lesson_id',
+        'pelajaran',
+        'question_text'
+      ]);
+
+      $contact = Quiz::find($id);
+      $contact->user_id =  $request->get('user_id');
+      $contact->lesson_id = $request->get('lesson_id');
+      $contact->pelejaran = $request->get('pelejaran');
+      $contact->question_text = $request->get('question_text');
+      $contact->save();
+
+      return response()->json([
+        'success' => true,
+        'message' => 'Data berhasil disimpan!',
+      ], 200);
     }
 
     /**
