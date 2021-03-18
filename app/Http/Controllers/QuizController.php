@@ -173,9 +173,12 @@ class QuizController extends Controller
       //     ], 401);
       //   }
       // }
-      $quiz->update($request->all());
-
-      // return response(['project' => new ProjectResource($project), 'message' => 'Update successfully'], 200);
+      Quiz::where('id', $request->id)->update([
+        'user_id' => $request->user_id,
+        'lesson_id' => $request->lesson_id,
+        'pelajaran' => $request->pelajaran,
+        'question_text' => $request->question_text,
+      ]);
 
       return response()->json([
         'success' => true,
