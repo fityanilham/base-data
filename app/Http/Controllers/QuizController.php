@@ -183,7 +183,6 @@ class QuizController extends Controller
       return response()->json([
         'success' => true,
         'message' => 'Data berhasil disimpan!',
-        'data' => new Quiz($quiz)
       ], 200);
     }
 
