@@ -175,7 +175,7 @@ class QuizController extends Controller
       // }
       $found = Quiz::find($id);
       if (!$found) {
-        return Response::json(['message' => 'Kaga ada id woi'], 404);
+        return response()->json(['message' => 'Kaga ada id woi'], 404);
       }
       $validatedData = Validator::make($request->all(), [
           'user_id' =>  'nullable|string',
@@ -184,10 +184,10 @@ class QuizController extends Controller
           'question_text' =>  'nullable|string',
       ]);
       if ($validatedData->fails()) {
-          return Response::json(['success' => false, 'message' => $validatedData->errors()], 400);
+          return response()->json(['success' => false, 'message' => $validatedData->errors()], 400);
       }
 
-      return Response::json([
+      return response()->json([
         'success' => true,
         'message' => 'Berhasil updater boss!', 
       ], 200);
