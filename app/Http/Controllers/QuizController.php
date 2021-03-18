@@ -173,16 +173,23 @@ class QuizController extends Controller
       //     ], 401);
       //   }
       // }
-      Quiz::where('id', $request->id)->update([
-        'user_id' => $request->user_id,
-        'lesson_id' => $request->lesson_id,
-        'pelajaran' => $request->pelajaran,
-        'question_text' => $request->question_text,
+      $found = Quiz::find($id);
+      if (!$found) {
+        return Response::json(['message' => 'Kaga ada id woi'], 404);
+      }
+      $validatedData = Validator::make($request->all(), [
+          'user_id' =>  'nullable|string',
+          'lesson_id' =>  'nullable|string',
+          'pelajaran' =>  'nullable|string',
+          'question_text' =>  'nullable|string',
       ]);
+      if ($validatedData->fails()) {
+          return Response::json(['success' => false, 'message' => $validatedData->errors()], 400);
+      }
 
-      return response()->json([
+      return Response::json([
         'success' => true,
-        'message' => 'Data berhasil disimpan!',
+        'message' => 'Berhasil updater boss!', 
       ], 200);
     }
 
