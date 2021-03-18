@@ -183,7 +183,7 @@ class QuizController extends Controller
       $contact = Quiz::find($id);
       $contact->user_id =  $request->get('user_id');
       $contact->lesson_id = $request->get('lesson_id');
-      $contact->pelejaran = $request->get('pelejaran');
+      $contact->pelejaran = $request->get('pelajaran');
       $contact->question_text = $request->get('question_text');
       $contact->save();
 
