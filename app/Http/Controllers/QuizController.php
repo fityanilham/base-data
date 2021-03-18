@@ -173,23 +173,14 @@ class QuizController extends Controller
       //     ], 401);
       //   }
       // }
-      $request->validate([
-        'user_id',
-        'lesson_id',
-        'pelajaran',
-        'question_text'
-      ]);
+      $quiz->update($request->all());
 
-      $contact = Quiz::find($id);
-      $contact->user_id =  $request->get('user_id');
-      $contact->lesson_id = $request->get('lesson_id');
-      $contact->pelejaran = $request->get('pelajaran');
-      $contact->question_text = $request->get('question_text');
-      $contact->save();
+      // return response(['project' => new ProjectResource($project), 'message' => 'Update successfully'], 200);
 
       return response()->json([
         'success' => true,
         'message' => 'Data berhasil disimpan!',
+        'data' => Quiz($quiz)
       ], 200);
     }
 
