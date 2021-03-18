@@ -50,12 +50,14 @@ class QuizController extends Controller
     {
       $quiz = Validator::make(
         $request->all(), [
+          'user_id' => 'required',
           'lesson_id' => 'required',
           'pelajaran' => 'required',
           'question_text' => 'required',
           'answer_options' => 'required',
         ],
         [
+          'user_id.required' => 'Masukkan user id!',
           'lesson_id.required' => 'Masukkan lesson id!',
           'pelajaran.required' => 'Masukkan pelajaran!',
           'question_text.required' => 'Masukkan Soal!',
@@ -71,6 +73,7 @@ class QuizController extends Controller
         ],401);
       }else {
         $post = Quiz::create([
+          'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
           'pelajaran' => $request->input('pelajaran'),
           'question_text' => $request->input('question_text'),
@@ -171,6 +174,7 @@ class QuizController extends Controller
       //   }
       // }
       $quiz = Quiz::where('id', $id)->first();
+      $quiz -> user_id = $request -> user_id;
       $quiz -> lesson_id = $request -> lesson_id;
       $quiz -> pelajaran = $request -> pelajaran;
       $quiz -> question_text = $request -> question_text;
