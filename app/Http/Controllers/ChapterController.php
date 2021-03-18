@@ -119,57 +119,17 @@ class ChapterController extends Controller
      */
     public function update(Request $request, Chapter $chapter, $id)
     {
-      // $chapter = Validator::make(
-      //   $request->all(), [
-      //     'user_id' => 'required',
-      //     'lesson_id' => 'required',
-      //     'judul_bab' => 'required',
-      //     'materi' => 'required',
-      //   ],
-      //   [
-      //     'user_id.required' => 'Masukkan user id!',
-      //     'lesson_id.required' => 'Masukkan lesson id!',
-      //     'judul_bab.required' => 'Masukkan nama judul bab!',
-      //     'materi.required' => 'Masukkan materi!',
-      //   ]
-      // );
+      Chapter::where('id', $request->id)->update([
+        'user_id' => $request->user_id,
+        'lesson_id' => $request->lesson_id,
+        'judul_bab' => $request->judul_bab,
+        'materi' => $request->materi,
+      ]);
 
-      // if($chapter->fails()) {
-      //   return response()->json([
-      //     'success' => false,
-      //     'message' => 'Silahkan isi bagian yang kosong',
-      //     'data' => $chapter->errors()
-      //   ],401);
-      // } else {
-      //   $post = Chapter::where('id', $request->id)->update([
-      //     'user_id' => $request->input('user_id'),
-      //     'lesson_id' => $request->input('lesson_id'),
-      //     'judul_bab' => $request->input('judul_bab'),
-      //     'materi' => $request->input('materi'),
-      //   ]);
-      //   if ($post) {
-      //     return response()->json([
-      //       'success' => true,
-      //       'message' => 'Data berhasil diupdate!',
-      //     ], 200);
-      //   } else {
-      //     return response()->json([
-      //       'success' => false,
-      //       'message' => 'Data gagal diupdate!',
-      //     ], 401);
-      //   }
-      // }
-      $OA = Chapter::where('id', $id)->first();
-      $OA -> user_id = $request -> user_id;
-      $OA -> lesson_id = $request -> lesson_id;
-      $OA -> judul_bab = $request -> judul_bab;
-      $OA -> materi = $request -> materi;
-      if($OA->update()) {
-          return response()->json([
-          'success' => false,
-          'message' => 'Berhasil Update data',
-          ],201);
-      }
+      return response()->json([
+        'success' => true,
+        'message' => 'Data berhasil disimpan!',
+      ], 200);
     }
 
     /**

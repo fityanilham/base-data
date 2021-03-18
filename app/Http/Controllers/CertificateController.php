@@ -112,15 +112,15 @@ class CertificateController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $certificate = Certificate::where('id', $id)->first();
-    $certificate -> name = $request -> name;
-    $certificate -> pelajaran = $request -> pelajaran;
-    if($certificate->update()) {
-      return response()->json([
-        'success' => false,
-        'message' => 'Berhasil Update data',
-      ],201);
-    }
+    Quotes::where('id', $request->id)->update([
+      'name' => $request->name,
+      'pelajaran' => $request->pelajaran,
+    ]);
+
+    return response()->json([
+      'success' => true,
+      'message' => 'Data berhasil disimpan!',
+    ], 200);
   }
 
   /**
