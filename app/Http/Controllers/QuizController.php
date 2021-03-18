@@ -101,7 +101,7 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-      $quiz = Quiz::with('AnswerOption')->where('id', $id)->first();
+      $quiz = Quiz::where('id', $id)->first();
       if ($quiz) {
         return $quiz;
       } else {
