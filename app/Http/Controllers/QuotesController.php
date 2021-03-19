@@ -116,16 +116,16 @@ class QuotesController extends Controller
      */
     public function update(Request $request, Quotes $quotes, $id)
     {
-      Quotes::where('id', $request->id)->update([
-        'arab' => $request->arab,
-        'arti' => $request->arti,
-        'latin' => $request->latin,
-      ]);
-
-      return response()->json([
-        'success' => true,
-        'message' => 'Data berhasil disimpan!',
-      ], 200);
+      $quotes = Quotes::where('id', $id)->first();
+      $quotes -> arab = $request -> arab;
+      $quotes -> arti = $request -> arti;
+      $quotes -> latin = $request -> latin;
+      if($quotes->update()) {
+          return response()->json([
+          'success' => false,
+          'message' => 'Berhasil Update data',
+          ],201);
+      }
     }
 
     /**

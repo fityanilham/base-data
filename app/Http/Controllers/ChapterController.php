@@ -119,17 +119,17 @@ class ChapterController extends Controller
      */
     public function update(Request $request, Chapter $chapter, $id)
     {
-      Chapter::where('id', $request->id)->update([
-        'user_id' => $request->user_id,
-        'lesson_id' => $request->lesson_id,
-        'judul_bab' => $request->judul_bab,
-        'materi' => $request->materi,
-      ]);
-
-      return response()->json([
-        'success' => true,
-        'message' => 'Data berhasil disimpan!',
-      ], 200);
+      $quiz = Quiz::where('id', $id)->first();
+      $quiz -> user_id = $request -> user_id;
+      $quiz -> lesson_id = $request -> lesson_id;
+      $quiz -> judul_bab = $request -> judul_bab;
+      $quiz -> materi = $request -> materi;
+      if($quiz->update()) {
+          return response()->json([
+          'success' => false,
+          'message' => 'Berhasil Update data',
+          ],201);
+      }
     }
 
     /**

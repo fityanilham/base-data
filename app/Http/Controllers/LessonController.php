@@ -123,57 +123,17 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-      Lesson::where('id', $request->id)->update([
-        'pelajaran' => $request->pelajaran,
-        'guru' => $request->guru,
-        'tingkatan' => $request->tingkatan,
-        'deskripsi' => $request->deskripsi,
-      ]);
-
-      return response()->json([
-        'success' => true,
-        'message' => 'Data berhasil disimpan!',
-      ], 200);
-      // $lesson = Validator::make(
-      //   $request->all(), [
-      //     'pelajaran' => 'required',
-      //     'guru' => 'required',
-      //     'tingkatan' => 'required',
-      //     'deskripsi' => 'required',
-      //   ],
-      //   [
-      //     'pelajaran.required' => 'Masukkan nama pelajaran!',
-      //     'guru.required' => 'Masukkan nama guru!',
-      //     'tingkatan.required' => 'Masukkan tingkat kesulitan!',
-      //     'deskripsi.required' => 'Masukkan deskripsi pelajaran!',
-      //   ]
-      // );
-
-      // if($lesson->update()) {
-      //   $post = Lesson::where('id', $request->id)->update([
-      //     'pelajaran' => $request->input('pelajaran'),
-      //     'guru' => $request->input('guru'),
-      //     'tingkatan' => $request->input('tingkatan'),
-      //     'deskripsi' => $request->input('deskripsi'),
-      //   ]);
-      //   if ($post) {
-      //     return response()->json([
-      //       'success' => true,
-      //       'message' => 'Data berhasil diupdate!',
-      //     ], 200);
-      //   } else {
-      //     return response()->json([
-      //       'success' => false,
-      //       'message' => 'Data gagal diupdate!',
-      //     ], 401);
-      //   }
-      // } else {
-      //   return response()->json([
-      //     'success' => false,
-      //     'message' => 'Silahkan isi bagian yang kosong',
-      //     'data' => $lesson->errors()
-      //   ],401);
-      // }
+      $lesson = Quiz::where('id', $id)->first();
+      $lesson -> pelajaran = $request -> pelajaran;
+      $lesson -> guru = $request -> guru;
+      $lesson -> tingkatan = $request -> tingkatan;
+      $lesson -> deskripsi = $request -> deskripsi;
+      if($lesson->update()) {
+          return response()->json([
+          'success' => false,
+          'message' => 'Berhasil Update data',
+          ],201);
+      }
     }
 
     /**

@@ -96,45 +96,6 @@ class UserController extends Controller
           'user' => $user
         ], 200);
       }
-      // $user = Validator::make(
-      //   $request->all(), [
-      //     'name' => 'required',
-      //     'email' => 'required',
-      //     'password' => 'required',
-      //     'role' => 'required',
-      //   ],
-      //   [
-      //     'name.required' => 'Masukkan nama depan!',
-      //     'email.required' => 'Masukkan email!',
-      //     'password.required' => 'Masukkan password!',
-      //     'role.required' => 'Masukkan role!',
-      //   ]
-      // );
-      // if($user->fails()) {
-      //   return response()->json([
-      //     'success' => false,
-      //     'message' => 'Silahkan isi bagian yang kosong',
-      //     'data' => $user->errors()
-      //   ],401);
-      // }else {
-      //   $post = User::where('id', $request->id)->update([
-      //     'name' => $request->input('name'),
-      //     'email' => $request->input('email'),
-      //     'password' => $request->input('password'),
-      //     'role' => $request->input('role'),
-      //   ]);
-      //   if ($post) {
-      //     return response()->json([
-      //       'success' => true,
-      //       'message' => 'Data berhasil diupdate!',
-      //     ], 200);
-      //   } else {
-      //     return response()->json([
-      //       'success' => false,
-      //       'message' => 'Data gagal diupdate!',
-      //     ], 401);
-      //   }
-      // }
     }
 
     /**

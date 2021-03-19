@@ -101,16 +101,24 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-      $quiz = Quiz::where('id', $id)->first();
-      if ($quiz) {
+      if (Quiz::where('id', $id)->exists()) {
+        $quiz = Quiz::where('id', $id)->get();
         return $quiz;
       } else {
         return response()->json([
-          'success' => false,
-          'message' => 'Tidak ada detail data!',
-          'data' => 'Kosong!'
-        ], 401);
+          "message" => "Quiz not found"
+        ], 404);
       }
+      // $quiz = Quiz::where('id', $id)->first();
+      // if ($quiz) {
+      //   return $quiz;
+      // } else {
+      //   return response()->json([
+      //     'success' => false,
+      //     'message' => 'Tidak ada detail data!',
+      //     'data' => 'Kosong!'
+      //   ], 401);
+      // }
     }
 
     /**
@@ -133,64 +141,18 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id)
     {
-      // $quiz = Validator::make(
-      //   $request->all(), [
-      //     // 'user_id' => 'required',
-      //     'lesson_id' => 'required',
-      //     'pelajaran' => 'required',
-      //     'question_text' => 'required',
-      //   ],
-      //   [
-      //     // 'user_id.required' => 'Masukkan user_id!',
-      //     'lesson_id.required' => 'Masukkan lesson_id!',
-      //     'pelajaran.required' => 'Masukkan pelajaran!',
-      //     'question_text.required' => 'Masukkan Soal!',
-      //   ]
-      // );
-
-      // if($quiz->fails()) {
-      //   return response()->json([
-      //     'success' => false,
-      //     'message' => 'Silahkan isi bagian yang kosong',
-      //     'data'    => $quiz->errors()
-      //   ],401);
-      // }else {
-      //   $post = Quiz::where('id', $request->id)->update([
-      //     // 'user_id' => $request->input('user_id'),
-      //     'lesson_id' => $request->input('lesson_id'),
-      //     'pelajaran' => $request->input('pelajaran'),
-      //     'question_text' => $request->input('question_text'),
-      //   ]);
-      //   if ($post) {
-      //     return response()->json([
-      //       'success' => true,
-      //       'message' => 'Data berhasil disimpan!',
-      //     ], 200);
-      //   } else {
-      //     return response()->json([
-      //       'success' => false,
-      //       'message' => 'Data gagal disimpan!',
-      //     ], 401);
-      //   }
-      // }
-      $found = Quiz::find($id);
-      if (!$found) {
-        return response()->json(['message' => 'Kaga ada id woi'], 404);
+      $quiz = Quiz::where('id', $id)->first();
+      $quiz -> user_id = $request -> user_id;
+      $quiz -> lesson_id = $request -> lesson_id;
+      $quiz -> pelajaran = $request -> pelajaran;
+      $quiz -> question_text = $request -> question_text;
+      $quiz -> answer_options = $request -> answer_options;
+      if($quiz->update()) {
+          return response()->json([
+          'success' => false,
+          'message' => 'Berhasil Update data',
+          ],201);
       }
-      $validatedData = Validator::make($request->all(), [
-          'user_id' =>  'nullable|string',
-          'lesson_id' =>  'nullable|string',
-          'pelajaran' =>  'nullable|string',
-          'question_text' =>  'nullable|string',
-      ]);
-      if ($validatedData->fails()) {
-          return response()->json(['success' => false, 'message' => $validatedData->errors()], 400);
-      }
-
-      return response()->json([
-        'success' => true,
-        'message' => 'Berhasil updater boss!', 
-      ], 200);
     }
 
     /**
