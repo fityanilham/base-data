@@ -12,6 +12,7 @@ class Chapter extends Model
     protected $fillable = [
         'user_id',
         'lesson_id',
+        'pelajaran',
         'judul_bab',
         'materi'
       ];

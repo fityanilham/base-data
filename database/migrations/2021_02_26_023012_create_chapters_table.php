@@ -17,6 +17,7 @@ class CreateChaptersTable extends Migration
             $table->id();
             $table->integer('user_id')->unsigned();
             $table->integer('lesson_id')->unsigned();
+            $table->string('pelajaran');
             $table->string('judul_bab');
             $table->text('materi');
             $table->timestamps();

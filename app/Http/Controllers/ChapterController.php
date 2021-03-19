@@ -41,12 +41,14 @@ class ChapterController extends Controller
         $request->all(), [
           'user_id' => 'required',
           'lesson_id' => 'required',
+          'pelajaran' => 'required',
           'judul_bab' => 'required',
           'materi' => 'required',
         ],
         [
           'user_id.required' => 'Masukkan user id!',
           'lesson_id.required' => 'Masukkan lesson id!',
+          'pelajaran.required' => 'Masukkan nama Pelajaran!',
           'judul_bab.required' => 'Masukkan nama judul bab!',
           'materi.required' => 'Masukkan materi!',
         ]
@@ -62,6 +64,7 @@ class ChapterController extends Controller
         $post = Chapter::create([
           'user_id' => $request->input('user_id'),
           'lesson_id' => $request->input('lesson_id'),
+          'pelajaran' => $request->input('pelajaran'),
           'judul_bab' => $request->input('judul_bab'),
           'materi' => $request->input('materi'),
         ]);
@@ -122,6 +125,7 @@ class ChapterController extends Controller
       $quiz = Chapter::where('id', $id)->first();
       $quiz -> user_id = $request -> user_id;
       $quiz -> lesson_id = $request -> lesson_id;
+      $quiz -> pelajaran = $request -> pelajaran;
       $quiz -> judul_bab = $request -> judul_bab;
       $quiz -> materi = $request -> materi;
       if($quiz->update()) {
