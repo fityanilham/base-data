@@ -119,7 +119,7 @@ class ChapterController extends Controller
      */
     public function update(Request $request, Chapter $chapter, $id)
     {
-      $quiz = Quiz::where('id', $id)->first();
+      $quiz = Chapter::where('id', $id)->first();
       $quiz -> user_id = $request -> user_id;
       $quiz -> lesson_id = $request -> lesson_id;
       $quiz -> judul_bab = $request -> judul_bab;

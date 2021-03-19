@@ -123,7 +123,7 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $lesson = Quiz::where('id', $id)->first();
+      $lesson = Lesson::where('id', $id)->first();
       $lesson -> pelajaran = $request -> pelajaran;
       $lesson -> guru = $request -> guru;
       $lesson -> tingkatan = $request -> tingkatan;
