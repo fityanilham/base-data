@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-      $user = Auth::user();
+      $user = Auth::user()->where('id', $id);
       return response()->json([
         'success' => $user,
       ],200);
@@ -126,11 +126,6 @@ class UserController extends Controller
         $user = Auth::user();
         $success['token'] =  $user->createToken('nApp')->accessToken;
         $success['message'] = 'Login successfull';
-        // return response()->json([
-        //   'token' => $success,
-        //   'message' => 'Berhasil login',
-        //   'user' => $user
-        // ], $this->successStatus);
         if ($user->email_verified_at !== NULL) {
           $success['message'] = 'Login successfull';
           return response()->json([
@@ -160,7 +155,7 @@ class UserController extends Controller
         if ($validator->fails()) {
           return response()->json([
             'message' => "Email sudah terdaftar silahkan login"
-          ],500);
+          ], 500);
         } else {
           $input = $request->all();
           $input['role'] = $request->role;
