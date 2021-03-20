@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-      $user = Auth::user()->where('id', $id);
+      $user = Auth::user()->id();
       return response()->json([
         'success' => $user,
       ],200);
