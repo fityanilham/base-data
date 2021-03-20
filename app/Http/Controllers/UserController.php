@@ -55,9 +55,17 @@ class UserController extends Controller
     public function show($id)
     {
       $user = User::where('id', $id)->first();
-      return response()->json([
-        'success' => $user,
-      ],200);
+      if($user){
+        return response()->json([
+          'success' => $user,
+        ],200);
+      } else {
+        return response()->json([
+          'success' => false,
+          'message' => 'Tidak ada detail data!',
+          'data' => 'Kosong!'
+        ], 401);
+      }
     }
 
     /**
