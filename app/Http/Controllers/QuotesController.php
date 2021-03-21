@@ -124,7 +124,7 @@ class QuotesController extends Controller
           return response()->json([
           'success' => false,
           'message' => 'Berhasil Update data',
-          ],201);
+          ],200);
       }
     }
 

@@ -132,7 +132,7 @@ class LessonController extends Controller
           return response()->json([
           'success' => true,
           'message' => 'Berhasil Update data',
-          ],201);
+          ],200);
       } else if($lesson->fails()) {
         return response()->json([
           'success' => false,
