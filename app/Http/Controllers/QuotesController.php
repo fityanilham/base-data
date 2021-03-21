@@ -55,7 +55,7 @@ class QuotesController extends Controller
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
           'data'    => $quotes->errors()
-        ],401);
+        ],500);
       }else {
         $post = Quotes::create([
           'arab' => $request->input('arab'),

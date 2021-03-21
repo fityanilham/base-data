@@ -59,7 +59,7 @@ class ChapterController extends Controller
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
           'data'    => $chapter->errors()
-        ],401);
+        ],500);
       }else {
         $post = Chapter::create([
           'user_id' => $request->input('user_id'),

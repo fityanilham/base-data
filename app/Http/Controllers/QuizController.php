@@ -70,7 +70,7 @@ class QuizController extends Controller
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
           'data'    => $quiz->errors()
-        ],401);
+        ],500);
       }else {
         $post = Quiz::create([
           'user_id' => $request->input('user_id'),
