@@ -133,6 +133,12 @@ class LessonController extends Controller
           'success' => false,
           'message' => 'Berhasil Update data',
           ],201);
+      } else {
+        return response()->json([
+          'success' => false,
+          'message' => 'Silahkan isi bagian yang kosong',
+          'data'    => $Lesson->errors()
+        ],401);
       }
     }
 
