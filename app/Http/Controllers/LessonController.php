@@ -60,7 +60,7 @@ class LessonController extends Controller
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
           'data'    => $Lesson->errors()
-        ],401);
+        ],500);
       }else {
         $post = Lesson::create([
           'user_id' => $request->input('user_id'),
@@ -133,12 +133,12 @@ class LessonController extends Controller
           'success' => false,
           'message' => 'Berhasil Update data',
           ],201);
-      } else {
+      } else if($Lesson->fails()) {
         return response()->json([
           'success' => false,
           'message' => 'Silahkan isi bagian yang kosong',
           'data'    => $Lesson->errors()
-        ],401);
+        ],500);
       }
     }
 
