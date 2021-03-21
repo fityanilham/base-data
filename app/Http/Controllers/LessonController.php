@@ -130,7 +130,7 @@ class LessonController extends Controller
       $lesson -> deskripsi = $request -> deskripsi;
       if($lesson->update()) {
           return response()->json([
-          'success' => false,
+          'success' => true,
           'message' => 'Berhasil Update data',
           ],201);
       } else if($lesson->fails()) {
