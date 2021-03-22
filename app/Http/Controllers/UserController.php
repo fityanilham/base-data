@@ -183,26 +183,6 @@ class UserController extends Controller
         }
     }
 
-    // public function editAccount(Request $request, $id)
-    // {
-    //   $id = Auth::user();
-    //   $user = User::find('id', $id)->first();
-    //   $user -> name = $request -> name;
-    //   $user -> email = $request -> email;
-    //   $user -> role = $request -> role;
-    //   if($user->update()) {
-    //     $user->sendApiEmailVerificationNotification();
-    //     $success['message'] = 'Tolong konfirmasi email kamu di mail box!';
-    //     $success['token'] =  $user->createToken('nApp')->accessToken;
-    //     $success['name'] =  $user->name;
-    //     return response()->json([
-    //       'token' => $success,
-    //       'message' => 'Berhasil update data',
-    //       'user' => $user
-    //     ], 200);
-    //   } 
-    // }
-
     public function changePassword(Request $request)
     {
       $input = $request->all();
@@ -215,9 +195,9 @@ class UserController extends Controller
       $validator = Validator::make($input, $rules);
       if ($validator->fails()) {
           return response()->json([
-            "message" => "Kata sandi baru dan konfirmasi kata sandi harus sama",
+            "message" => "Kata sandi baru dan konfirmasi kata sandi harus samaaaa",
             "data" => array()
-          ], 500);
+          ], 422);
       } else {
           try {
               if ((Hash::check(request('old_password'), Auth::user()->password)) == false) {
@@ -229,7 +209,7 @@ class UserController extends Controller
                   return response()->json([
                     "message" => "Kata sandi lama dan baru tidak boleh sama",
                     "data" => array()
-                  ], 401);
+                  ], 226);
               } else {
                   User::where('id', $userid)->update(['password' => Hash::make($input['new_password'])]);
                   return response()->json([

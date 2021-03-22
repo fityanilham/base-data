@@ -41,7 +41,7 @@ class VerificationApiController extends Controller
   public function resend(Request $request)
   {
     if ($request->user()->hasVerifiedEmail()) {
-    return response()->json('Anda sudah memiliki email terverifikasi!', 422);
+    return response()->json('Anda sudah memiliki email terverifikasi!!!', 422);
     // return redirect($this->redirectPath());
   }
     $request->user()->sendEmailVerificationNotification();
